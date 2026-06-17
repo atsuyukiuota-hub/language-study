@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>毎日フレーズ学習</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Noto Sans JP', sans-serif;
+      background: #f0f2f5;
+      min-height: 100vh;
+      color: #333;
+    }
+    header {
+      background: linear-gradient(135deg, #1a237e 0%, #3949ab 100%);
+      color: white;
+      padding: 14px 16px 12px;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+    header h1 { font-size: 1.25rem; font-weight: 700; letter-spacing: 0.05em; }
+    header .date { font-size: 0.82rem; opacity: 0.88; margin-top: 3px; }
+    .tabs {
+      display: flex;
+      background: white;
+      border-bottom: 1px solid #e0e0e0;
+      position: sticky;
+      top: 65px;
+      z-index: 99;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+    .tab {
+      flex: 1;
+      padding: 13px 8px;
+      text-align: center;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border: none;
+      background: none;
+      cursor: pointer;
+      color: #888;
+      transition: all 0.2s;
+      border-bottom: 3px solid transparent;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .tab.active { color: #1a237e; border-bottom: 3px solid #1a237e; }
+    .content {
+      padding: 10px 12px 20px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .day-info {
+      text-align: center;
+      font-size: 0.8rem;
+      color: #999;
+      margin: 8px 0 10px;
+    }
+    .play-all-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: 100%;
+      padding: 11px;
+      margin-bottom: 12px;
+      background: #e8eaf6;
+      border: 1.5px solid #9fa8da;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #1a237e;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: background 0.15s;
+    }
+    .play-all-btn:active { background: #c5cae9; }
+    .card {
+      background: white;
+      border-radius: 14px;
+      padding: 14px 15px;
+      margin-bottom: 10px;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .card-number {
+      font-size: 0.72rem;
+      color: #bbb;
+      font-weight: 600;
+    }
+    .card-all-btn {
+      background: none;
+      border: 1px solid #e0e0e0;
+      border-radius: 16px;
+      padding: 3px 10px;
+      font-size: 0.72rem;
+      color: #999;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .card-all-btn:active { background: #f5f5f5; }
+    .lang-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 8px 0;
+    }
+    .lang-row + .lang-row {
+      border-top: 1px solid #f5f5f5;
+    }
+    .lang-flag {
+      font-size: 1.3rem;
+      flex-shrink: 0;
+      padding-top: 1px;
+      line-height: 1;
+    }
+    .lang-content { flex: 1; min-width: 0; }
+    .lang-text {
+      font-size: 1rem;
+      line-height: 1.45;
+      font-weight: 500;
+      word-break: break-word;
+    }
+    .lang-sub {
+      font-size: 0.78rem;
+      color: #f57c00;
+      margin-top: 3px;
+      font-style: italic;
+      letter-spacing: 0.01em;
+    }
+    .speak-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: none;
+      border: 1px solid #e0e0e0;
+      border-radius: 14px;
+      padding: 4px 10px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      color: #777;
+      margin-top: 5px;
+      -webkit-tap-highlight-color: transparent;
+      transition: all 0.15s;
+    }
+    .speak-btn:active { background: #f5f5f5; }
+    .speak-btn.speaking {
+      background: #e3f2fd;
+      border-color: #90caf9;
+      color: #1565c0;
+    }
+    .en-text { color: #2e7d32; }
+    .zh-text { color: #bf360c; }
+    .ja-text { color: #283593; }
+    .footer {
+      text-align: center;
+      padding: 16px;
+      color: #ccc;
+      font-size: 0.72rem;
+    }
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.72);
+      color: white;
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s;
+      z-index: 200;
+      white-space: nowrap;
+    }
+    .toast.show { opacity: 1; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>毎日フレーズ学習</h1>
+  <div class="date" id="headerDate"></div>
+</header>
+
+<div class="tabs">
+  <button class="tab active" id="tab-business" onclick="switchTheme('business')">💼 ビジネス</button>
+  <button class="tab" id="tab-travel" onclick="switchTheme('travel')">✈️ 旅行</button>
+</div>
+
+<div class="content">
+  <div class="day-info" id="dayInfo"></div>
+  <button class="play-all-btn" id="playAllBtn" onclick="playAll()">
+    <span id="playAllIcon">▶</span>
+    <span id="playAllText">本日の10フレーズをすべて聞く</span>
+  </button>
+  <div id="phraseList"></div>
+  <div class="footer">毎日10フレーズ・英語・中国語・日本語</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ============================================================
+// フレーズデータ
+// ============================================================
+const PHRASES = {
+
+business: [
+  // --- あいさつ・自己紹介 ---
+  { ja:"はじめまして。よろしくお願いいたします。", en:"How do you do? Nice to meet you.", zh:"初次见面，请多关照。", pinyin:"Chūcì jiànmiàn, qǐng duō guānzhào." },
+  { ja:"名刺をいただけますか？", en:"May I have your business card?", zh:"可以给我您的名片吗？", pinyin:"Kěyǐ gěi wǒ nín de míngpiàn ma?" },
+  { ja:"こちらが私の名刺です。", en:"Here is my business card.", zh:"这是我的名片。", pinyin:"Zhè shì wǒ de míngpiàn." },
+  { ja:"お世話になっております。", en:"Thank you for your continued support.", zh:"承蒙关照。", pinyin:"Chéngméng guānzhào." },
+  { ja:"ご連絡いただきありがとうございます。", en:"Thank you for reaching out.", zh:"感谢您与我联系。", pinyin:"Gǎnxiè nín yǔ wǒ liánxì." },
+  { ja:"お時間をいただきありがとうございます。", en:"Thank you for your time.", zh:"感谢您抽出时间。", pinyin:"Gǎnxiè nín chōuchū shíjiān." },
+  { ja:"どうぞよろしくお伝えください。", en:"Please give my regards.", zh:"请代我问好。", pinyin:"Qǐng dài wǒ wènhǎo." },
+  { ja:"ご担当者はどなたですか？", en:"Who is the person in charge?", zh:"负责人是哪位？", pinyin:"Fùzérén shì nǎ wèi?" },
+  { ja:"弊社の○○と申します。", en:"I am [Name] from our company.", zh:"我是本公司的○○。", pinyin:"Wǒ shì běn gōngsī de ○○." },
+  { ja:"本日はよろしくお願いいたします。", en:"I am looking forward to today's meeting.", zh:"今天请多关照。", pinyin:"Jīntiān qǐng duō guānzhào." },
+  // --- 会議 ---
+  { ja:"会議を始めましょう。", en:"Let's begin the meeting.", zh:"我们开始开会吧。", pinyin:"Wǒmen kāishǐ kāihuì ba." },
+  { ja:"本日の議題を確認させてください。", en:"Let me confirm today's agenda.", zh:"让我确认一下今天的议题。", pinyin:"Ràng wǒ quèrèn yīxià jīntiān de yìtí." },
+  { ja:"ご意見をお聞かせください。", en:"Please share your opinion.", zh:"请分享您的意见。", pinyin:"Qǐng fēnxiǎng nín de yìjiàn." },
+  { ja:"もう少し詳しく教えていただけますか？", en:"Could you elaborate a bit more?", zh:"您能详细说明一下吗？", pinyin:"Nín néng xiángxì shuōmíng yīxià ma?" },
+  { ja:"少々お待ちいただけますか？", en:"Could you wait a moment, please?", zh:"请稍等一下可以吗？", pinyin:"Qǐng shāo děng yīxià kěyǐ ma?" },
+  { ja:"次のアジェンダに移りましょう。", en:"Let's move to the next agenda item.", zh:"让我们进入下一个议题。", pinyin:"Ràng wǒmen jìnrù xià yīgè yìtí." },
+  { ja:"本日の決定事項をまとめます。", en:"Let me summarize today's decisions.", zh:"我来总结今天的决定事项。", pinyin:"Wǒ lái zǒngjié jīntiān de juédìng shìxiàng." },
+  { ja:"議事録を後ほどお送りします。", en:"I will send you the meeting minutes later.", zh:"我稍后会发送会议记录。", pinyin:"Wǒ shāohòu huì fāsòng huìyì jìlù." },
+  { ja:"次回の会議はいつにしますか？", en:"When shall we schedule the next meeting?", zh:"下次会议定在什么时候？", pinyin:"Xià cì huìyì dìng zài shénme shíhou?" },
+  { ja:"本日はありがとうございました。", en:"Thank you very much for today.", zh:"今天非常感谢。", pinyin:"Jīntiān fēicháng gǎnxiè." },
+  // --- 提案・交渉 ---
+  { ja:"ご提案を拝見しました。", en:"I have reviewed your proposal.", zh:"我已查阅了您的提案。", pinyin:"Wǒ yǐ cháyuè le nín de tí'àn." },
+  { ja:"価格について相談できますか？", en:"Can we discuss the price?", zh:"我们可以商量一下价格吗？", pinyin:"Wǒmen kěyǐ shāngliáng yīxià jiàgé ma?" },
+  { ja:"条件を検討いたします。", en:"We will consider the terms.", zh:"我们会研究条件。", pinyin:"Wǒmen huì yánjiū tiáojiàn." },
+  { ja:"双方にとってよい条件を探しましょう。", en:"Let's find terms that benefit both parties.", zh:"让我们寻找对双方有利的条件。", pinyin:"Ràng wǒmen xúnzhǎo duì shuāngfāng yǒulì de tiáojiàn." },
+  { ja:"本件については持ち帰って検討します。", en:"I will take this back for consideration.", zh:"这件事我带回去研究一下。", pinyin:"Zhè jiàn shì wǒ dài huíqù yánjiū yīxià." },
+  { ja:"ご提案を前向きに検討します。", en:"We will consider your proposal positively.", zh:"我们会积极研究您的提案。", pinyin:"Wǒmen huì jījí yánjiū nín de tí'àn." },
+  { ja:"合意に達しました。", en:"We have reached an agreement.", zh:"我们达成了协议。", pinyin:"Wǒmen dáchéng le xiéyì." },
+  { ja:"契約書の内容をご確認ください。", en:"Please review the contract.", zh:"请确认合同内容。", pinyin:"Qǐng quèrèn hétong nèiróng." },
+  { ja:"ご協力ありがとうございます。", en:"Thank you for your cooperation.", zh:"感谢您的合作。", pinyin:"Gǎnxiè nín de hézuò." },
+  { ja:"要望に沿えるか確認いたします。", en:"I will check if we can meet your requirements.", zh:"我来确认是否能满足您的要求。", pinyin:"Wǒ lái quèrèn shìfǒu néng mǎnzú nín de yāoqiú." },
+  // --- スケジュール ---
+  { ja:"締め切りはいつですか？", en:"What is the deadline?", zh:"截止日期是什么时候？", pinyin:"Jiézhǐ rìqī shì shénme shíhou?" },
+  { ja:"スケジュールを調整してください。", en:"Please adjust the schedule.", zh:"请调整日程。", pinyin:"Qǐng tiáozhěng rìchéng." },
+  { ja:"来週中にご回答いただけますか？", en:"Could you reply by next week?", zh:"您能在下周之内回复吗？", pinyin:"Nín néng zài xià zhōu zhīnèi huífù ma?" },
+  { ja:"今週ご都合のよい日はありますか？", en:"Are you available any day this week?", zh:"您这周有方便的时间吗？", pinyin:"Nín zhè zhōu yǒu fāngbiàn de shíjiān ma?" },
+  { ja:"日程を確認して折り返しご連絡します。", en:"I will check my schedule and get back to you.", zh:"我确认日程后再联系您。", pinyin:"Wǒ quèrèn rìchéng hòu zài liánxì nín." },
+  { ja:"期限を少し延ばすことは可能ですか？", en:"Is it possible to extend the deadline a bit?", zh:"能稍微延长截止日期吗？", pinyin:"Néng shāowēi yáncháng jiézhǐ rìqī ma?" },
+  { ja:"プロジェクトは予定通り進んでいます。", en:"The project is on schedule.", zh:"项目按计划推进中。", pinyin:"Xiàngmù àn jìhuà tuījìn zhōng." },
+  { ja:"本日中にご連絡いたします。", en:"I will contact you today.", zh:"我今天内会联系您。", pinyin:"Wǒ jīntiān nèi huì liánxì nín." },
+  { ja:"急ぎでお願いできますか？", en:"Could you handle this urgently?", zh:"能否紧急处理一下？", pinyin:"Néng fǒu jǐnjí chǔlǐ yīxià?" },
+  { ja:"少し遅れる可能性があります。", en:"I might be a little late.", zh:"我可能会稍微晚一点。", pinyin:"Wǒ kěnéng huì shāowēi wǎn yīdiǎn." },
+  // --- メール・連絡 ---
+  { ja:"メールをお送りします。", en:"I will send you an email.", zh:"我会给您发邮件。", pinyin:"Wǒ huì gěi nín fā yóujiàn." },
+  { ja:"添付ファイルをご確認ください。", en:"Please check the attachment.", zh:"请查看附件。", pinyin:"Qǐng chákàn fùjiàn." },
+  { ja:"先ほどのメールをご覧ください。", en:"Please refer to the email I just sent.", zh:"请查看我刚才发的邮件。", pinyin:"Qǐng chákàn wǒ gāngcái fā de yóujiàn." },
+  { ja:"ご返信をお待ちしております。", en:"I look forward to your reply.", zh:"期待您的回复。", pinyin:"Qīdài nín de huífù." },
+  { ja:"ご不明な点はご連絡ください。", en:"Please contact me if you have any questions.", zh:"如有疑问，请联系我。", pinyin:"Rú yǒu yíwèn, qǐng liánxì wǒ." },
+  { ja:"資料を共有いたします。", en:"I will share the document with you.", zh:"我会与您共享资料。", pinyin:"Wǒ huì yǔ nín gòngxiǎng zīliào." },
+  { ja:"ご確認の上、ご署名をお願いします。", en:"Please review and sign.", zh:"请确认后签名。", pinyin:"Qǐng quèrèn hòu qiānmíng." },
+  { ja:"詳細は後ほどご連絡いたします。", en:"I will provide details later.", zh:"详情稍后联系您。", pinyin:"Xiángqíng shāohòu liánxì nín." },
+  { ja:"ご理解のほどよろしくお願いします。", en:"Thank you for your understanding.", zh:"请您谅解，谢谢。", pinyin:"Qǐng nín liàngjiě, xièxiè." },
+  { ja:"ご確認をお願いします。", en:"Please confirm.", zh:"请确认。", pinyin:"Qǐng quèrèn." },
+  // --- トラブル対応 ---
+  { ja:"問題が発生しました。", en:"A problem has occurred.", zh:"出现了问题。", pinyin:"Chūxiàn le wèntí." },
+  { ja:"原因を調査中です。", en:"We are investigating the cause.", zh:"我们正在调查原因。", pinyin:"Wǒmen zhèngzài diàochá yuányīn." },
+  { ja:"ご不便をおかけして申し訳ございません。", en:"We apologize for the inconvenience.", zh:"对于给您带来的不便深表歉意。", pinyin:"Duìyú gěi nín dàilái de bùbiàn shēn biǎo qiànyì." },
+  { ja:"早急に対応いたします。", en:"We will address this promptly.", zh:"我们会尽快处理。", pinyin:"Wǒmen huì jǐnkuài chǔlǐ." },
+  { ja:"解決策をご提案いたします。", en:"I will suggest a solution.", zh:"我来提出解决方案。", pinyin:"Wǒ lái tíchū jiějué fāng'àn." },
+  { ja:"本件を上司に確認いたします。", en:"I will confirm this with my supervisor.", zh:"我会向上级确认此事。", pinyin:"Wǒ huì xiàng shàngjí quèrèn cǐ shì." },
+  { ja:"ご指摘ありがとうございます。", en:"Thank you for pointing that out.", zh:"感谢您的指出。", pinyin:"Gǎnxiè nín de zhǐchū." },
+  { ja:"修正版をお送りします。", en:"I will send you the revised version.", zh:"我会发送修订版给您。", pinyin:"Wǒ huì fāsòng xiūdìng bǎn gěi nín." },
+  { ja:"今後このようなことがないよう努めます。", en:"We will ensure this does not happen again.", zh:"我们会确保今后不再发生此类情况。", pinyin:"Wǒmen huì quèbǎo jīnhòu bù zài fāshēng cǐ lèi qíngkuàng." },
+  { ja:"ご要望をお聞かせください。", en:"Please let me know your needs.", zh:"请告诉我您的需求。", pinyin:"Qǐng gàosù wǒ nín de xūqiú." },
+  // --- プレゼン ---
+  { ja:"本日はご説明の機会をいただきありがとうございます。", en:"Thank you for giving me this opportunity to present.", zh:"感谢今天给我这个介绍的机会。", pinyin:"Gǎnxiè jīntiān gěi wǒ zhège jièshào de jīhuì." },
+  { ja:"まず概要をご説明します。", en:"First, I will explain the overview.", zh:"首先，我来说明概要。", pinyin:"Shǒuxiān, wǒ lái shuōmíng gàiyào." },
+  { ja:"次のスライドをご覧ください。", en:"Please look at the next slide.", zh:"请看下一页。", pinyin:"Qǐng kàn xià yī yè." },
+  { ja:"このグラフが示す通りです。", en:"As this graph shows.", zh:"如此图表所示。", pinyin:"Rú cǐ túbiǎo suǒ shì." },
+  { ja:"ご質問はございますか？", en:"Do you have any questions?", zh:"您有什么问题吗？", pinyin:"Nín yǒu shénme wèntí ma?" },
+  { ja:"以上でご説明を終わります。", en:"That concludes my presentation.", zh:"以上就是我的说明。", pinyin:"Yǐshàng jiùshì wǒ de shuōmíng." },
+  { ja:"詳細は資料をご参照ください。", en:"Please refer to the document for details.", zh:"详细内容请参阅资料。", pinyin:"Xiángxì nèiróng qǐng cānyuè zīliào." },
+  { ja:"ご静聴ありがとうございました。", en:"Thank you for your attention.", zh:"感谢您的聆听。", pinyin:"Gǎnxiè nín de língtīng." },
+  { ja:"ご不明な点はいつでもお尋ねください。", en:"Please feel free to ask if anything is unclear.", zh:"如有不明之处，请随时询问。", pinyin:"Rú yǒu bùmíng zhī chù, qǐng suíshí xúnwèn." },
+  { ja:"プロジェクトの進捗をご報告いたします。", en:"I will report on the project progress.", zh:"我来汇报项目进展。", pinyin:"Wǒ lái huìbào xiàngmù jìnzhǎn." }
+],
+
+travel: [
+  // --- 空港 ---
+  { ja:"チェックインをお願いします。", en:"I would like to check in, please.", zh:"我想办理登机手续。", pinyin:"Wǒ xiǎng bànlǐ dēngjī shǒuxù." },
+  { ja:"搭乗ゲートはどこですか？", en:"Where is the boarding gate?", zh:"登机口在哪里？", pinyin:"Dēngjī kǒu zài nǎlǐ?" },
+  { ja:"荷物を預けたいです。", en:"I would like to check my luggage.", zh:"我想托运行李。", pinyin:"Wǒ xiǎng tuōyùn xínglǐ." },
+  { ja:"フライトが遅延していますか？", en:"Is the flight delayed?", zh:"航班延误了吗？", pinyin:"Hángbān yánwù le ma?" },
+  { ja:"免税店はどこですか？", en:"Where is the duty-free shop?", zh:"免税店在哪里？", pinyin:"Miǎnshuì diàn zài nǎlǐ?" },
+  { ja:"窓側の席をお願いします。", en:"I would like a window seat, please.", zh:"请给我靠窗的座位。", pinyin:"Qǐng gěi wǒ kào chuāng de zuòwèi." },
+  { ja:"入国カードの書き方を教えてください。", en:"Could you show me how to fill in the arrival card?", zh:"请告诉我怎么填写入境卡。", pinyin:"Qǐng gàosù wǒ zěnme tiánxiě rùjìng kǎ." },
+  { ja:"手荷物受取所はどこですか？", en:"Where is the baggage claim?", zh:"行李提取处在哪里？", pinyin:"Xínglǐ tíqǔ chù zài nǎlǐ?" },
+  { ja:"乗り換えはどこでしますか？", en:"Where do I transfer?", zh:"在哪里转机？", pinyin:"Zài nǎlǐ zhuǎnjī?" },
+  { ja:"パスポートコントロールはどこですか？", en:"Where is passport control?", zh:"护照检查处在哪里？", pinyin:"Hùzhào jiǎnchá chù zài nǎlǐ?" },
+  // --- ホテル ---
+  { ja:"予約しています。山田と申します。", en:"I have a reservation. My name is Yamada.", zh:"我有预约，我叫山田。", pinyin:"Wǒ yǒu yùyuē, wǒ jiào Shāntián." },
+  { ja:"チェックアウトは何時ですか？", en:"What time is check-out?", zh:"退房时间是几点？", pinyin:"Tuìfáng shíjiān shì jǐ diǎn?" },
+  { ja:"部屋を変えていただけますか？", en:"Could you change my room?", zh:"能给我换个房间吗？", pinyin:"Néng gěi wǒ huàn gè fángjiān ma?" },
+  { ja:"タオルを追加でいただけますか？", en:"Could I have extra towels?", zh:"能再给我一些毛巾吗？", pinyin:"Néng zài gěi wǒ yīxiē máojīn ma?" },
+  { ja:"Wi-Fiのパスワードを教えてください。", en:"Could you tell me the Wi-Fi password?", zh:"请告诉我Wi-Fi密码。", pinyin:"Qǐng gàosù wǒ Wi-Fi mìmǎ." },
+  { ja:"朝食は何時からですか？", en:"What time does breakfast start?", zh:"早餐从几点开始？", pinyin:"Zǎocān cóng jǐ diǎn kāishǐ?" },
+  { ja:"荷物を預かってもらえますか？", en:"Could you keep my luggage?", zh:"能帮我保管行李吗？", pinyin:"Néng bāng wǒ bǎoguǎn xínglǐ ma?" },
+  { ja:"近くのレストランを教えてください。", en:"Could you recommend a nearby restaurant?", zh:"能推荐附近的餐厅吗？", pinyin:"Néng tuījiàn fùjìn de cāntīng ma?" },
+  { ja:"エアコンの使い方を教えてください。", en:"How do I use the air conditioner?", zh:"请告诉我怎么使用空调。", pinyin:"Qǐng gàosù wǒ zěnme shǐyòng kōngtiáo." },
+  { ja:"もう一泊延長できますか？", en:"Can I extend my stay by one more night?", zh:"能再住一晚吗？", pinyin:"Néng zài zhù yī wǎn ma?" },
+  // --- レストラン ---
+  { ja:"予約をしたいのですが。", en:"I would like to make a reservation.", zh:"我想预订。", pinyin:"Wǒ xiǎng yùdìng." },
+  { ja:"2名でお願いします。", en:"A table for two, please.", zh:"请给我们两个人的座位。", pinyin:"Qǐng gěi wǒmen liǎng gè rén de zuòwèi." },
+  { ja:"メニューを見せてください。", en:"May I see the menu?", zh:"请给我看菜单。", pinyin:"Qǐng gěi wǒ kàn càidān." },
+  { ja:"おすすめは何ですか？", en:"What do you recommend?", zh:"您有什么推荐？", pinyin:"Nín yǒu shénme tuījiàn?" },
+  { ja:"お水をください。", en:"Water, please.", zh:"请给我水。", pinyin:"Qǐng gěi wǒ shuǐ." },
+  { ja:"お会計をお願いします。", en:"Check, please.", zh:"请结账。", pinyin:"Qǐng jiézhàng." },
+  { ja:"アレルギーがあります。", en:"I have allergies.", zh:"我有过敏。", pinyin:"Wǒ yǒu guòmǐn." },
+  { ja:"辛いものは苦手です。", en:"I cannot eat spicy food.", zh:"我不能吃辣的。", pinyin:"Wǒ bù néng chī là de." },
+  { ja:"これは何が入っていますか？", en:"What is in this dish?", zh:"这道菜里有什么？", pinyin:"Zhè dào cài lǐ yǒu shénme?" },
+  { ja:"大変おいしかったです。", en:"It was very delicious.", zh:"非常好吃。", pinyin:"Fēicháng hǎochī." },
+  // --- 交通 ---
+  { ja:"○○駅までお願いします。", en:"To [station name], please.", zh:"请去○○站。", pinyin:"Qǐng qù ○○ zhàn." },
+  { ja:"この電車は○○に止まりますか？", en:"Does this train stop at [place]?", zh:"这班电车在○○停吗？", pinyin:"Zhè bān diànchē zài ○○ tíng ma?" },
+  { ja:"切符を1枚ください。", en:"One ticket, please.", zh:"请给我一张票。", pinyin:"Qǐng gěi wǒ yī zhāng piào." },
+  { ja:"タクシーを呼んでください。", en:"Please call a taxi for me.", zh:"请帮我叫出租车。", pinyin:"Qǐng bāng wǒ jiào chūzūchē." },
+  { ja:"ここで降りたいです。", en:"I would like to get off here.", zh:"我想在这里下车。", pinyin:"Wǒ xiǎng zài zhèlǐ xià chē." },
+  { ja:"バス停はどこですか？", en:"Where is the bus stop?", zh:"公共汽车站在哪里？", pinyin:"Gōnggòng qìchē zhàn zài nǎlǐ?" },
+  { ja:"地下鉄の路線図をもらえますか？", en:"May I have a subway map?", zh:"能给我一张地铁路线图吗？", pinyin:"Néng gěi wǒ yī zhāng dìtiě lùxiàntú ma?" },
+  { ja:"○○まで何分かかりますか？", en:"How long does it take to get to [place]?", zh:"去○○需要多少分钟？", pinyin:"Qù ○○ xūyào duōshǎo fēnzhōng?" },
+  { ja:"この道で合っていますか？", en:"Am I going the right way?", zh:"这条路对吗？", pinyin:"Zhè tiáo lù duì ma?" },
+  { ja:"空港まで送ってください。", en:"Please take me to the airport.", zh:"请送我去机场。", pinyin:"Qǐng sòng wǒ qù jīchǎng." },
+  // --- ショッピング ---
+  { ja:"これはいくらですか？", en:"How much is this?", zh:"这个多少钱？", pinyin:"Zhège duōshǎo qián?" },
+  { ja:"試着してもいいですか？", en:"May I try this on?", zh:"我可以试穿吗？", pinyin:"Wǒ kěyǐ shì chuān ma?" },
+  { ja:"他の色はありますか？", en:"Do you have other colors?", zh:"有其他颜色吗？", pinyin:"Yǒu qítā yánsè ma?" },
+  { ja:"Mサイズをください。", en:"I would like a medium size.", zh:"请给我中号。", pinyin:"Qǐng gěi wǒ zhōng hào." },
+  { ja:"クレジットカードは使えますか？", en:"Do you accept credit cards?", zh:"可以刷信用卡吗？", pinyin:"Kěyǐ shuā xìnyòngkǎ ma?" },
+  { ja:"袋に入れてください。", en:"Please put it in a bag.", zh:"请帮我装袋。", pinyin:"Qǐng bāng wǒ zhuāng dài." },
+  { ja:"これを返品したいです。", en:"I would like to return this.", zh:"我想退货。", pinyin:"Wǒ xiǎng tuìhuò." },
+  { ja:"値引きはできますか？", en:"Can you give me a discount?", zh:"可以打折吗？", pinyin:"Kěyǐ dǎzhé ma?" },
+  { ja:"レシートをください。", en:"May I have a receipt?", zh:"请给我收据。", pinyin:"Qǐng gěi wǒ shōujù." },
+  { ja:"プレゼント用に包んでもらえますか？", en:"Could you wrap this as a gift?", zh:"能帮我包成礼品吗？", pinyin:"Néng bāng wǒ bāo chéng lǐpǐn ma?" },
+  // --- 観光・緊急 ---
+  { ja:"○○への行き方を教えてください。", en:"How do I get to [place]?", zh:"请告诉我怎么去○○。", pinyin:"Qǐng gàosù wǒ zěnme qù ○○." },
+  { ja:"写真を撮ってもらえますか？", en:"Could you take a photo of me?", zh:"能帮我拍照吗？", pinyin:"Néng bāng wǒ pāizhào ma?" },
+  { ja:"何時まで開いていますか？", en:"What time do you close?", zh:"营业到几点？", pinyin:"Yíngyè dào jǐ diǎn?" },
+  { ja:"入場料はいくらですか？", en:"How much is the admission fee?", zh:"入场费是多少？", pinyin:"Rùchǎng fèi shì duōshǎo?" },
+  { ja:"地図をもらえますか？", en:"May I have a map?", zh:"能给我一张地图吗？", pinyin:"Néng gěi wǒ yī zhāng dìtú ma?" },
+  { ja:"道に迷いました。", en:"I am lost.", zh:"我迷路了。", pinyin:"Wǒ mílù le." },
+  { ja:"助けてください！", en:"Help me, please!", zh:"请帮帮我！", pinyin:"Qǐng bāngbāng wǒ!" },
+  { ja:"救急車を呼んでください。", en:"Please call an ambulance.", zh:"请叫救护车。", pinyin:"Qǐng jiào jiùhùchē." },
+  { ja:"財布を盗まれました。", en:"My wallet was stolen.", zh:"我的钱包被偷了。", pinyin:"Wǒ de qiánbāo bèi tōu le." },
+  { ja:"日本語を話せる方はいますか？", en:"Is there anyone who speaks Japanese?", zh:"有人会说日语吗？", pinyin:"Yǒu rén huì shuō Rìyǔ ma?" },
+  { ja:"薬局はどこですか？", en:"Where is the pharmacy?", zh:"药店在哪里？", pinyin:"Yàodiàn zài nǎlǐ?" },
+  { ja:"病院に連れて行ってください。", en:"Please take me to the hospital.", zh:"请带我去医院。", pinyin:"Qǐng dài wǒ qù yīyuàn." },
+  { ja:"パスポートを紛失しました。", en:"I have lost my passport.", zh:"我的护照丢失了。", pinyin:"Wǒ de hùzhào diūshī le." },
+  { ja:"領事館に連絡したいです。", en:"I would like to contact the consulate.", zh:"我想联系领事馆。", pinyin:"Wǒ xiǎng liánxì lǐngshìguǎn." },
+  { ja:"トイレはどこですか？", en:"Where is the restroom?", zh:"洗手间在哪里？", pinyin:"Xǐshǒujiān zài nǎlǐ?" },
+  { ja:"もう一度おっしゃっていただけますか？", en:"Could you say that again?", zh:"能再说一遍吗？", pinyin:"Néng zài shuō yī biàn ma?" },
+  { ja:"ゆっくり話してください。", en:"Please speak slowly.", zh:"请说慢一点。", pinyin:"Qǐng shuō màn yīdiǎn." },
+  { ja:"英語を話せますか？", en:"Do you speak English?", zh:"您会说英语吗？", pinyin:"Nín huì shuō Yīngyǔ ma?" },
+  { ja:"大変お世話になりました。ありがとうございます。", en:"You have been very helpful. Thank you very much.", zh:"非常感谢。承蒙您关照。", pinyin:"Fēicháng gǎnxiè. Chéngméng nín guānzhào." },
+  { ja:"また来ます！", en:"I will come back again!", zh:"我还会再来的！", pinyin:"Wǒ hái huì zài lái de!" }
+]
+
+}; // end PHRASES
+
+// ============================================================
+// アプリロジック
+// ============================================================
+let currentTheme = 'business';
+let todayPhrases = [];
+let playAllActive = false;
+let playAllIndex = 0;
+
+function getDayIndex() {
+  const base = new Date('2026-01-01T00:00:00');
+  const now = new Date();
+  return Math.max(0, Math.floor((now - base) / 86400000));
+}
+
+function getTodayPhrases(theme) {
+  const data = PHRASES[theme];
+  const total = data.length;
+  const startIdx = (getDayIndex() * 10) % total;
+  const result = [];
+  for (let i = 0; i < 10; i++) {
+    result.push(data[(startIdx + i) % total]);
+  }
+  return result;
+}
+
+function speak(text, lang, btnEl) {
+  if (!('speechSynthesis' in window)) {
+    showToast('お使いのブラウザは音声未対応です');
+    return;
+  }
+  window.speechSynthesis.cancel();
+  const utt = new SpeechSynthesisUtterance(text);
+  utt.lang = lang;
+  utt.rate = 0.88;
+  document.querySelectorAll('.speak-btn.speaking').forEach(b => b.classList.remove('speaking'));
+  if (btnEl) {
+    btnEl.classList.add('speaking');
+    utt.onend = () => btnEl.classList.remove('speaking');
+    utt.onerror = () => btnEl.classList.remove('speaking');
+  }
+  window.speechSynthesis.speak(utt);
+}
+
+function playAll() {
+  if (playAllActive) {
+    window.speechSynthesis.cancel();
+    stopPlayAll();
+    return;
+  }
+  playAllActive = true;
+  playAllIndex = 0;
+  document.getElementById('playAllIcon').textContent = '■';
+  document.getElementById('playAllText').textContent = '再生中… タップで停止';
+  playNextInAll();
+}
+
+function playNextInAll() {
+  if (!playAllActive || playAllIndex >= todayPhrases.length * 2) {
+    stopPlayAll();
+    return;
+  }
+  const pIdx = Math.floor(playAllIndex / 2);
+  const isEn = (playAllIndex % 2 === 0);
+  const phrase = todayPhrases[pIdx];
+  const text = isEn ? phrase.en : phrase.zh;
+  const lang = isEn ? 'en-US' : 'zh-CN';
+
+  window.speechSynthesis.cancel();
+  const utt = new SpeechSynthesisUtterance(text);
+  utt.lang = lang;
+  utt.rate = 0.85;
+  utt.onend = () => {
+    playAllIndex++;
+    if (playAllActive) setTimeout(playNextInAll, 600);
+  };
+  utt.onerror = () => {
+    playAllIndex++;
+    if (playAllActive) setTimeout(playNextInAll, 300);
+  };
+  window.speechSynthesis.speak(utt);
+
+  // カードをスクロール
+  const card = document.getElementById('card-' + pIdx);
+  if (card) card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function stopPlayAll() {
+  playAllActive = false;
+  playAllIndex = 0;
+  document.getElementById('playAllIcon').textContent = '▶';
+  document.getElementById('playAllText').textContent = '本日の10フレーズをすべて聞く';
+}
+
+function switchTheme(theme) {
+  if (playAllActive) { window.speechSynthesis.cancel(); stopPlayAll(); }
+  currentTheme = theme;
+  document.getElementById('tab-business').classList.toggle('active', theme === 'business');
+  document.getElementById('tab-travel').classList.toggle('active', theme === 'travel');
+  renderPhrases();
+}
+
+function renderPhrases() {
+  todayPhrases = getTodayPhrases(currentTheme);
+  const dayIdx = getDayIndex();
+  document.getElementById('dayInfo').textContent =
+    `学習開始から ${dayIdx + 1} 日目のフレーズ`;
+
+  const html = todayPhrases.map((p, i) => `
+    <div class="card" id="card-${i}">
+      <div class="card-header">
+        <span class="card-number">No.${String(i + 1).padStart(2, '0')}</span>
+        <button class="card-all-btn" data-idx="${i}">🔊 英語＋中国語</button>
+      </div>
+      <div class="lang-row">
+        <div class="lang-flag">🇯🇵</div>
+        <div class="lang-content">
+          <div class="lang-text ja-text">${escHtml(p.ja)}</div>
+        </div>
+      </div>
+      <div class="lang-row">
+        <div class="lang-flag">🇺🇸</div>
+        <div class="lang-content">
+          <div class="lang-text en-text">${escHtml(p.en)}</div>
+          <button class="speak-btn" data-lang="en" data-idx="${i}">🔊 英語で聞く</button>
+        </div>
+      </div>
+      <div class="lang-row">
+        <div class="lang-flag">🇨🇳</div>
+        <div class="lang-content">
+          <div class="lang-text zh-text">${escHtml(p.zh)}</div>
+          <div class="lang-sub">${escHtml(p.pinyin)}</div>
+          <button class="speak-btn" data-lang="zh" data-idx="${i}">🔊 中国語で聞く</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  document.getElementById('phraseList').innerHTML = html;
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// イベント委任
+document.getElementById('phraseList').addEventListener('click', function(e) {
+  const btn = e.target.closest('.speak-btn');
+  const allBtn = e.target.closest('.card-all-btn');
+  if (btn) {
+    const idx = parseInt(btn.dataset.idx);
+    const lang = btn.dataset.lang;
+    const text = lang === 'en' ? todayPhrases[idx].en : todayPhrases[idx].zh;
+    const langCode = lang === 'en' ? 'en-US' : 'zh-CN';
+    speak(text, langCode, btn);
+  } else if (allBtn) {
+    const idx = parseInt(allBtn.dataset.idx);
+    const p = todayPhrases[idx];
+    window.speechSynthesis.cancel();
+    const u1 = new SpeechSynthesisUtterance(p.en);
+    u1.lang = 'en-US'; u1.rate = 0.88;
+    const u2 = new SpeechSynthesisUtterance(p.zh);
+    u2.lang = 'zh-CN'; u2.rate = 0.88;
+    allBtn.classList.add('speaking');
+    u2.onend = () => allBtn.classList.remove('speaking');
+    u2.onerror = () => allBtn.classList.remove('speaking');
+    window.speechSynthesis.speak(u1);
+    window.speechSynthesis.speak(u2);
+  }
+});
+
+// 初期化
+(function init() {
+  const now = new Date();
+  const wd = ['日','月','火','水','木','金','土'];
+  document.getElementById('headerDate').textContent =
+    `${now.getFullYear()}年${now.getMonth()+1}月${now.getDate()}日（${wd[now.getDay()]}）`;
+  renderPhrases();
+})();
+</script>
+</body>
+</html>
