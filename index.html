@@ -186,6 +186,53 @@
       white-space: nowrap;
     }
     .toast.show { opacity: 1; }
+    .day-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: white;
+      padding: 8px 12px;
+      border-bottom: 1px solid #e8e8e8;
+      position: sticky;
+      top: 113px;
+      z-index: 98;
+    }
+    .day-nav-btn {
+      background: none;
+      border: 1px solid #ddd;
+      border-radius: 20px;
+      padding: 6px 14px;
+      font-size: 0.82rem;
+      color: #555;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: all 0.15s;
+    }
+    .day-nav-btn:active { background: #f0f2f5; }
+    .day-nav-btn:disabled { color: #ccc; border-color: #eee; cursor: default; }
+    .day-nav-btn.today-btn {
+      background: #e8eaf6;
+      border-color: #9fa8da;
+      color: #1a237e;
+      font-weight: 600;
+    }
+    .day-nav-label {
+      font-size: 0.82rem;
+      color: #555;
+      font-weight: 600;
+      text-align: center;
+    }
+    .day-nav-label .day-badge {
+      display: inline-block;
+      background: #1a237e;
+      color: white;
+      font-size: 0.68rem;
+      padding: 1px 7px;
+      border-radius: 10px;
+      margin-left: 4px;
+      vertical-align: middle;
+    }
+    .day-nav-label .day-badge.past { background: #78909c; }
   </style>
 </head>
 <body>
@@ -198,6 +245,12 @@
 <div class="tabs">
   <button class="tab active" id="tab-business" onclick="switchTheme('business')">💼 ビジネス</button>
   <button class="tab" id="tab-travel" onclick="switchTheme('travel')">✈️ 旅行</button>
+</div>
+
+<div class="day-nav">
+  <button class="day-nav-btn" id="prevBtn" onclick="changeDay(-1)">◀ 前の日</button>
+  <div class="day-nav-label" id="dayNavLabel"></div>
+  <button class="day-nav-btn today-btn" id="nextBtn" onclick="changeDay(1)" disabled>次の日 ▶</button>
 </div>
 
 <div class="content">
@@ -386,11 +439,24 @@ let currentTheme = 'business';
 let todayPhrases = [];
 let playAllActive = false;
 let playAllIndex = 0;
+let dayOffset = 0;
 
-function getDayIndex() {
+function getTodayAbsIndex() {
   const base = new Date('2026-01-01T00:00:00');
   const now = new Date();
   return Math.max(0, Math.floor((now - base) / 86400000));
+}
+
+function getDayIndex() {
+  return getTodayAbsIndex() + dayOffset;
+}
+
+function changeDay(delta) {
+  if (playAllActive) { window.speechSynthesis.cancel(); stopPlayAll(); }
+  const next = dayOffset + delta;
+  if (next > 0) return;
+  dayOffset = next;
+  renderPhrases();
 }
 
 function getTodayPhrases(theme) {
@@ -483,6 +549,23 @@ function switchTheme(theme) {
 function renderPhrases() {
   todayPhrases = getTodayPhrases(currentTheme);
   const dayIdx = getDayIndex();
+  const absIdx = getTodayAbsIndex();
+
+  // 日付ナビゲーション更新
+  const viewDate = new Date();
+  viewDate.setDate(viewDate.getDate() + dayOffset);
+  const wd = ['日','月','火','水','木','金','土'];
+  const dateStr = `${viewDate.getMonth()+1}月${viewDate.getDate()}日（${wd[viewDate.getDay()]}）`;
+  const isToday = dayOffset === 0;
+  const badge = isToday
+    ? '<span class="day-badge">今日</span>'
+    : `<span class="day-badge past">${Math.abs(dayOffset)}日前</span>`;
+  document.getElementById('dayNavLabel').innerHTML = dateStr + badge;
+  document.getElementById('prevBtn').disabled = dayIdx <= 0;
+  const nextBtn = document.getElementById('nextBtn');
+  nextBtn.disabled = isToday;
+  nextBtn.classList.toggle('today-btn', isToday);
+
   document.getElementById('dayInfo').textContent =
     `学習開始から ${dayIdx + 1} 日目のフレーズ`;
 
