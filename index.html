@@ -62,14 +62,23 @@
       color: #999;
       margin: 8px 0 10px;
     }
+    .play-all-wrap {
+      position: sticky;
+      top: 151px;
+      z-index: 97;
+      background: #f0f2f5;
+      padding: 6px 12px 6px;
+      border-bottom: 1px solid #e0e0e0;
+    }
     .play-all-btn {
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
       width: 100%;
-      padding: 11px;
-      margin-bottom: 12px;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 10px;
       background: #e8eaf6;
       border: 1.5px solid #9fa8da;
       border-radius: 10px;
@@ -253,12 +262,15 @@
   <button class="day-nav-btn today-btn" id="nextBtn" onclick="changeDay(1)" disabled>次の日 ▶</button>
 </div>
 
-<div class="content">
-  <div class="day-info" id="dayInfo"></div>
+<div class="play-all-wrap">
   <button class="play-all-btn" id="playAllBtn" onclick="playAll()">
     <span id="playAllIcon">▶</span>
-    <span id="playAllText">本日の10フレーズをすべて聞く</span>
+    <span id="playAllText">本日の10フレーズをすべて聞く（日・英・中）</span>
   </button>
+</div>
+
+<div class="content">
+  <div class="day-info" id="dayInfo"></div>
   <div id="phraseList"></div>
   <div class="footer">毎日10フレーズ・英語・中国語・日本語</div>
 </div>
@@ -502,15 +514,15 @@ function playAll() {
 }
 
 function playNextInAll() {
-  if (!playAllActive || playAllIndex >= todayPhrases.length * 2) {
+  if (!playAllActive || playAllIndex >= todayPhrases.length * 3) {
     stopPlayAll();
     return;
   }
-  const pIdx = Math.floor(playAllIndex / 2);
-  const isEn = (playAllIndex % 2 === 0);
+  const pIdx = Math.floor(playAllIndex / 3);
+  const type = playAllIndex % 3; // 0=日本語 1=英語 2=中国語
   const phrase = todayPhrases[pIdx];
-  const text = isEn ? phrase.en : phrase.zh;
-  const lang = isEn ? 'en-US' : 'zh-CN';
+  const text = type === 0 ? phrase.ja : (type === 1 ? phrase.en : phrase.zh);
+  const lang = type === 0 ? 'ja-JP' : (type === 1 ? 'en-US' : 'zh-CN');
 
   window.speechSynthesis.cancel();
   const utt = new SpeechSynthesisUtterance(text);
@@ -573,7 +585,10 @@ function renderPhrases() {
     <div class="card" id="card-${i}">
       <div class="card-header">
         <span class="card-number">No.${String(i + 1).padStart(2, '0')}</span>
-        <button class="card-all-btn" data-idx="${i}">🔊 英語＋中国語</button>
+        <div style="display:flex;gap:5px;">
+          <button class="card-all-btn" data-idx="${i}" data-mode="all3">🔊 日＋英＋中</button>
+          <button class="card-all-btn" data-idx="${i}" data-mode="en-zh">🔊 英＋中</button>
+        </div>
       </div>
       <div class="lang-row">
         <div class="lang-flag">🇯🇵</div>
@@ -625,17 +640,28 @@ document.getElementById('phraseList').addEventListener('click', function(e) {
     speak(text, langCode, btn);
   } else if (allBtn) {
     const idx = parseInt(allBtn.dataset.idx);
+    const mode = allBtn.dataset.mode;
     const p = todayPhrases[idx];
     window.speechSynthesis.cancel();
-    const u1 = new SpeechSynthesisUtterance(p.en);
-    u1.lang = 'en-US'; u1.rate = 0.88;
-    const u2 = new SpeechSynthesisUtterance(p.zh);
-    u2.lang = 'zh-CN'; u2.rate = 0.88;
+    document.querySelectorAll('.card-all-btn.speaking').forEach(b => b.classList.remove('speaking'));
     allBtn.classList.add('speaking');
-    u2.onend = () => allBtn.classList.remove('speaking');
-    u2.onerror = () => allBtn.classList.remove('speaking');
-    window.speechSynthesis.speak(u1);
-    window.speechSynthesis.speak(u2);
+    if (mode === 'all3') {
+      const u1 = new SpeechSynthesisUtterance(p.ja); u1.lang = 'ja-JP'; u1.rate = 0.88;
+      const u2 = new SpeechSynthesisUtterance(p.en); u2.lang = 'en-US'; u2.rate = 0.88;
+      const u3 = new SpeechSynthesisUtterance(p.zh); u3.lang = 'zh-CN'; u3.rate = 0.88;
+      u3.onend = () => allBtn.classList.remove('speaking');
+      u3.onerror = () => allBtn.classList.remove('speaking');
+      window.speechSynthesis.speak(u1);
+      window.speechSynthesis.speak(u2);
+      window.speechSynthesis.speak(u3);
+    } else {
+      const u1 = new SpeechSynthesisUtterance(p.en); u1.lang = 'en-US'; u1.rate = 0.88;
+      const u2 = new SpeechSynthesisUtterance(p.zh); u2.lang = 'zh-CN'; u2.rate = 0.88;
+      u2.onend = () => allBtn.classList.remove('speaking');
+      u2.onerror = () => allBtn.classList.remove('speaking');
+      window.speechSynthesis.speak(u1);
+      window.speechSynthesis.speak(u2);
+    }
   }
 });
 
