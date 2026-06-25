@@ -38,9 +38,9 @@
     }
     .tab {
       flex: 1;
-      padding: 13px 8px;
+      padding: 11px 4px;
       text-align: center;
-      font-size: 0.95rem;
+      font-size: 0.8rem;
       font-weight: 600;
       border: none;
       background: none;
@@ -254,6 +254,8 @@
 <div class="tabs">
   <button class="tab active" id="tab-business" onclick="switchTheme('business')">💼 ビジネス</button>
   <button class="tab" id="tab-travel" onclick="switchTheme('travel')">✈️ 旅行</button>
+  <button class="tab" id="tab-accounting" onclick="switchTheme('accounting')">📊 会計</button>
+  <button class="tab" id="tab-parenting" onclick="switchTheme('parenting')">👶 子育て</button>
 </div>
 
 <div class="day-nav">
@@ -265,7 +267,7 @@
 <div class="play-all-wrap">
   <button class="play-all-btn" id="playAllBtn" onclick="playAll()">
     <span id="playAllIcon">▶</span>
-    <span id="playAllText">本日の10フレーズをすべて聞く（日・英・中）</span>
+    <span id="playAllText">本日の5フレーズをすべて聞く（日・英・中）</span>
   </button>
 </div>
 
@@ -442,6 +444,84 @@ travel: [
   { ja:"また来ます！", en:"I will come back again!", zh:"我还会再来的！", pinyin:"Wǒ hái huì zài lái de!" }
 ]
 
+,
+
+accounting: [
+  { ja:"損益計算書を確認してください。", en:"Please review the income statement.", zh:"请确认损益表。", pinyin:"Qǐng quèrèn sǔnyì biǎo." },
+  { ja:"今期の売上高はいくらですか？", en:"What is the revenue for this period?", zh:"本期营业收入是多少？", pinyin:"Běn qī yíngyè shōurù shì duōshǎo?" },
+  { ja:"経費の領収書を保管してください。", en:"Please keep the receipts for expenses.", zh:"请保管好费用收据。", pinyin:"Qǐng bǎoguǎn hǎo fèiyòng shōujù." },
+  { ja:"来月、確定申告の期限があります。", en:"The tax filing deadline is next month.", zh:"下个月是纳税申报的截止日期。", pinyin:"Xià gè yuè shì nàshuì shēnbào de jiézhǐ rìqī." },
+  { ja:"消費税の計算をお願いします。", en:"Please calculate the consumption tax.", zh:"请计算消费税。", pinyin:"Qǐng jìsuàn xiāofèishuì." },
+  { ja:"減価償却費を計上してください。", en:"Please record the depreciation expense.", zh:"请计提折旧费用。", pinyin:"Qǐng jìtí zhéjiù fèiyòng." },
+  { ja:"売掛金の回収状況を教えてください。", en:"Please update me on the accounts receivable status.", zh:"请告诉我应收账款的回收情况。", pinyin:"Qǐng gàosù wǒ yìngshōu zhàngkuǎn de huíshōu qíngkuàng." },
+  { ja:"今月の資金繰りはどうですか？", en:"How is the cash flow this month?", zh:"本月的资金周转情况如何？", pinyin:"Běn yuè de zījīn zhōuzhuǎn qíngkuàng rúhé?" },
+  { ja:"貸借対照表のバランスが合いません。", en:"The balance sheet is not balanced.", zh:"资产负债表不平衡。", pinyin:"Zīchǎn fùzhài biǎo bù pínghéng." },
+  { ja:"法人税の申告書を作成中です。", en:"I am preparing the corporate tax return.", zh:"我正在制作企业所得税申告书。", pinyin:"Wǒ zhèngzài zhìzuò qǐyè suǒdéshuì shēngàoshū." },
+  { ja:"この費用は損金に算入できますか？", en:"Can this expense be deducted for tax purposes?", zh:"这笔费用可以作为税务扣除吗？", pinyin:"Zhè bǐ fèiyòng kěyǐ zuòwéi shuìwù kòuchú ma?" },
+  { ja:"棚卸資産の評価方法は何ですか？", en:"What inventory valuation method do you use?", zh:"存货的计价方法是什么？", pinyin:"Cúnhuò de jìjià fāngfǎ shì shénme?" },
+  { ja:"源泉徴収票を発行してください。", en:"Please issue the withholding tax certificate.", zh:"请开具预扣税证明。", pinyin:"Qǐng kāijù yùkòushuì zhèngmíng." },
+  { ja:"年次決算の準備を始めましょう。", en:"Let's start preparing for the annual settlement.", zh:"让我们开始准备年度结算。", pinyin:"Ràng wǒmen kāishǐ zhǔnbèi niándù jiésuàn." },
+  { ja:"内部統制を強化する必要があります。", en:"We need to strengthen internal controls.", zh:"我们需要加强内部控制。", pinyin:"Wǒmen xūyào jiāqiáng nèibù kòngzhì." },
+  { ja:"監査法人から指摘がありました。", en:"The auditing firm made a comment.", zh:"审计事务所提出了意见。", pinyin:"Shěnjì shìwùsuǒ tíchū le yìjiàn." },
+  { ja:"予算と実績を比較してください。", en:"Please compare the budget with the actual results.", zh:"请对比预算和实绩。", pinyin:"Qǐng duìbǐ yùsuàn hé shíjì." },
+  { ja:"固定資産台帳を更新してください。", en:"Please update the fixed asset register.", zh:"请更新固定资产台账。", pinyin:"Qǐng gēngxīn gùdìng zīchǎn táizhàng." },
+  { ja:"仕訳の入力をお願いします。", en:"Please enter the journal entries.", zh:"请录入记账分录。", pinyin:"Qǐng lùrù jìzhàng fēnlù." },
+  { ja:"この取引の会計処理を確認します。", en:"I will confirm the accounting treatment for this transaction.", zh:"我来确认这笔交易的会计处理。", pinyin:"Wǒ lái quèrèn zhè bǐ jiāoyì de kuàijì chǔlǐ." },
+  { ja:"売上原価を計算してください。", en:"Please calculate the cost of goods sold.", zh:"请计算销售成本。", pinyin:"Qǐng jìsuàn xiāoshòu chéngběn." },
+  { ja:"節税対策を提案させていただきます。", en:"I would like to suggest tax-saving measures.", zh:"我来提出节税方案。", pinyin:"Wǒ lái tíchū jiéshuì fāng'àn." },
+  { ja:"財務諸表を開示する必要があります。", en:"We are required to disclose the financial statements.", zh:"我们需要披露财务报表。", pinyin:"Wǒmen xūyào pīlù cáiwù bàobiǎo." },
+  { ja:"現金残高を確認してください。", en:"Please verify the cash balance.", zh:"请确认现金余额。", pinyin:"Qǐng quèrèn xiànjīn yú'é." },
+  { ja:"経費精算書を提出してください。", en:"Please submit the expense report.", zh:"请提交费用报销单。", pinyin:"Qǐng tíjiāo fèiyòng bàoxiāo dān." },
+  { ja:"消費税の申告期限はいつですか？", en:"When is the consumption tax filing deadline?", zh:"消费税的申报截止日期是什么时候？", pinyin:"Xiāofèishuì de shēnbào jiézhǐ rìqī shì shénme shíhou?" },
+  { ja:"利益率が下がっています。", en:"The profit margin is declining.", zh:"利润率在下降。", pinyin:"Lìrùn lǜ zài xiàjiàng." },
+  { ja:"帳簿を整理してください。", en:"Please organize the accounting books.", zh:"请整理账簿。", pinyin:"Qǐng zhěnglǐ zhàngbù." },
+  { ja:"税務調査に備えて書類を準備します。", en:"I will prepare documents for the tax audit.", zh:"我来准备税务审查所需文件。", pinyin:"Wǒ lái zhǔnbèi shuìwù shěnchá suǒxū wénjiàn." },
+  { ja:"繰越欠損金を活用できます。", en:"We can utilize the carried-forward losses.", zh:"我们可以利用结转亏损。", pinyin:"Wǒmen kěyǐ lìyòng jiézhuǎn kuīsǔn." },
+  { ja:"月次試算表を作成しました。", en:"I have prepared the monthly trial balance.", zh:"我已制作月度试算表。", pinyin:"Wǒ yǐ zhìzuò yuèdù shìsuàn biǎo." },
+  { ja:"所得税の計算方法を説明します。", en:"I will explain the income tax calculation method.", zh:"我来说明个人所得税的计算方法。", pinyin:"Wǒ lái shuōmíng gèrén suǒdéshuì de jìsuàn fāngfǎ." },
+  { ja:"会計基準に従って処理してください。", en:"Please process according to accounting standards.", zh:"请按照会计准则处理。", pinyin:"Qǐng àn zhào kuàijì zhǔnzé chǔlǐ." },
+  { ja:"利益剰余金の配当を検討しています。", en:"We are considering distributing retained earnings as dividends.", zh:"我们正在考虑将留存收益分红。", pinyin:"Wǒmen zhèngzài kǎolǜ jiāng liúcún shōuyì fēnhóng." },
+  { ja:"支払手形の期日はいつですか？", en:"When is the due date for the notes payable?", zh:"应付票据的到期日是什么时候？", pinyin:"Yìngfù piàojù de dàoqī rì shì shénme shíhou?" }
+],
+
+parenting: [
+  { ja:"よくできたね！", en:"Great job!", zh:"做得很好！", pinyin:"Zuò de hěn hǎo!" },
+  { ja:"一緒に遊ぼう！", en:"Let's play together!", zh:"我们一起玩吧！", pinyin:"Wǒmen yīqǐ wán ba!" },
+  { ja:"ご飯を食べましょう。", en:"Let's eat.", zh:"我们吃饭吧。", pinyin:"Wǒmen chīfàn ba." },
+  { ja:"手を洗ってきてね。", en:"Please go wash your hands.", zh:"请去洗手。", pinyin:"Qǐng qù xǐshǒu." },
+  { ja:"もう寝る時間だよ。", en:"It's time to sleep.", zh:"该睡觉了。", pinyin:"Gāi shuìjiào le." },
+  { ja:"危ないよ！気をつけて。", en:"That's dangerous! Be careful.", zh:"危险！小心点。", pinyin:"Wēixiǎn! Xiǎoxīn diǎn." },
+  { ja:"お片付けしようね。", en:"Let's tidy up.", zh:"我们来收拾吧。", pinyin:"Wǒmen lái shōushi ba." },
+  { ja:"歯を磨いてね。", en:"Please brush your teeth.", zh:"请刷牙。", pinyin:"Qǐng shuāyá." },
+  { ja:"どこが痛いの？", en:"Where does it hurt?", zh:"哪里痛？", pinyin:"Nǎlǐ tòng?" },
+  { ja:"大丈夫だよ、安心して。", en:"It's okay, don't worry.", zh:"没关系，放心吧。", pinyin:"Méiguānxi, fàngxīn ba." },
+  { ja:"何が食べたい？", en:"What do you want to eat?", zh:"你想吃什么？", pinyin:"Nǐ xiǎng chī shénme?" },
+  { ja:"靴を履いてね。", en:"Please put on your shoes.", zh:"请穿上鞋子。", pinyin:"Qǐng chuān shàng xiézi." },
+  { ja:"トイレに行きたい？", en:"Do you need to use the bathroom?", zh:"你要去洗手间吗？", pinyin:"Nǐ yào qù xǐshǒujiān ma?" },
+  { ja:"お友達と仲良くしてね。", en:"Please be kind to your friends.", zh:"请和朋友好好相处。", pinyin:"Qǐng hé péngyǒu hǎohǎo xiāngchǔ." },
+  { ja:"絵本を読もうか。", en:"Shall we read a picture book?", zh:"我们来读绘本吧。", pinyin:"Wǒmen lái dú huìběn ba." },
+  { ja:"上手だね！", en:"Well done!", zh:"真棒！", pinyin:"Zhēn bàng!" },
+  { ja:"もう一回やってみよう。", en:"Let's try again.", zh:"再试一次吧。", pinyin:"Zài shì yī cì ba." },
+  { ja:"ゆっくりでいいよ。", en:"Take your time.", zh:"慢慢来没关系。", pinyin:"Màn màn lái méiguānxi." },
+  { ja:"お風呂に入ろう。", en:"Let's take a bath.", zh:"我们来洗澡吧。", pinyin:"Wǒmen lái xǐzǎo ba." },
+  { ja:"公園に行こう！", en:"Let's go to the park!", zh:"我们去公园吧！", pinyin:"Wǒmen qù gōngyuán ba!" },
+  { ja:"今日は何が楽しかった？", en:"What was fun today?", zh:"今天什么事情最开心？", pinyin:"Jīntiān shénme shìqíng zuì kāixīn?" },
+  { ja:"助けてあげようか？", en:"Do you want me to help you?", zh:"我来帮你好吗？", pinyin:"Wǒ lái bāng nǐ hǎo ma?" },
+  { ja:"ごめんなさいって言おうね。", en:"Let's say sorry.", zh:"说对不起吧。", pinyin:"Shuō duìbuqǐ ba." },
+  { ja:"一緒に数えてみよう！", en:"Let's count together!", zh:"我们一起来数数！", pinyin:"Wǒmen yīqǐ lái shǔshù!" },
+  { ja:"どんな色が好き？", en:"What's your favorite color?", zh:"你喜欢什么颜色？", pinyin:"Nǐ xǐhuān shénme yánsè?" },
+  { ja:"絵を描いてみて。", en:"Try drawing a picture.", zh:"来画幅画吧。", pinyin:"Lái huà fú huà ba." },
+  { ja:"もっと食べる？", en:"Do you want more?", zh:"还要吃吗？", pinyin:"Hái yào chī ma?" },
+  { ja:"お水を飲んでね。", en:"Please drink some water.", zh:"请喝水。", pinyin:"Qǐng hē shuǐ." },
+  { ja:"えらかったね！", en:"You were so good!", zh:"你真乖！", pinyin:"Nǐ zhēn guāi!" },
+  { ja:"どんな夢を見た？", en:"What did you dream about?", zh:"你做了什么梦？", pinyin:"Nǐ zuò le shénme mèng?" },
+  { ja:"一緒に歌おう！", en:"Let's sing together!", zh:"我们一起唱歌吧！", pinyin:"Wǒmen yīqǐ chànggē ba!" },
+  { ja:"ブロックで何を作る？", en:"What are you going to build with the blocks?", zh:"你要用积木做什么？", pinyin:"Nǐ yào yòng jīmù zuò shénme?" },
+  { ja:"ありがとうって言えるかな？", en:"Can you say thank you?", zh:"能说谢谢吗？", pinyin:"Néng shuō xièxiè ma?" },
+  { ja:"今日もよく頑張ったね。", en:"You worked hard today too.", zh:"今天也很努力呢。", pinyin:"Jīntiān yě hěn nǔlì ne." },
+  { ja:"大好きだよ。", en:"I love you.", zh:"我爱你。", pinyin:"Wǒ ài nǐ." }
+]
+
 }; // end PHRASES
 
 // ============================================================
@@ -474,9 +554,9 @@ function changeDay(delta) {
 function getTodayPhrases(theme) {
   const data = PHRASES[theme];
   const total = data.length;
-  const startIdx = (getDayIndex() * 10) % total;
+  const startIdx = (getDayIndex() * 5) % total;
   const result = [];
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 5; i++) {
     result.push(data[(startIdx + i) % total]);
   }
   return result;
@@ -547,14 +627,15 @@ function stopPlayAll() {
   playAllActive = false;
   playAllIndex = 0;
   document.getElementById('playAllIcon').textContent = '▶';
-  document.getElementById('playAllText').textContent = '本日の10フレーズをすべて聞く';
+  document.getElementById('playAllText').textContent = '本日の5フレーズをすべて聞く（日・英・中）';
 }
 
 function switchTheme(theme) {
   if (playAllActive) { window.speechSynthesis.cancel(); stopPlayAll(); }
   currentTheme = theme;
-  document.getElementById('tab-business').classList.toggle('active', theme === 'business');
-  document.getElementById('tab-travel').classList.toggle('active', theme === 'travel');
+  ['business','travel','accounting','parenting'].forEach(t => {
+    document.getElementById('tab-' + t).classList.toggle('active', t === theme);
+  });
   renderPhrases();
 }
 
