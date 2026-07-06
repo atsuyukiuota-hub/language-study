@@ -621,7 +621,8 @@ function playNextInAll() {
   // カードをスクロール（新フレーズ開始＝日本語のときのみ）
   if (type === 0) {
     if (pIdx === 0) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
     } else {
       const card = document.getElementById('card-' + pIdx);
       if (card) card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
