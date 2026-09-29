@@ -283,6 +283,9 @@
 // ============================================================
 // フレーズデータ
 // ============================================================
+// 各テーマのバッチ（PHRASES[theme] の各要素）が対象とする月。新しい月を追加したら末尾に追記する。
+const BATCH_MONTHS = ['2026-07', '2026-08', '2026-10'];
+
 const PHRASES = {
 
 business: [
@@ -392,6 +395,34 @@ business: [
   { ja:"社外秘の資料の扱いに注意してください。", en:"Please handle the confidential documents with care.", zh:"请谨慎处理机密资料。", pinyin:"Qǐng jǐnshèn chǔlǐ jīmì zīliào." },
   { ja:"オンラインセミナーを開催します。", en:"We will hold an online seminar.", zh:"我们将举办线上研讨会。", pinyin:"Wǒmen jiāng jǔbàn xiànshàng yántǎohuì." },
   { ja:"部署間の連携を強化しましょう。", en:"Let's strengthen coordination between departments.", zh:"让我们加强部门间的协作吧。", pinyin:"Ràng wǒmen jiāqiáng bùmén jiān de xiézuò ba." }
+],
+[
+  // --- 2026年10月分 追加フレーズ ---
+  { ja:"下半期の方針を共有します。", en:"We will share the policy for the second half of the year.", zh:"我们将分享下半年的方针。", pinyin:"Wǒmen jiāng fēnxiǎng xià bànnián de fāngzhēn." },
+  { ja:"上半期の実績を振り返りましょう。", en:"Let's review the results of the first half.", zh:"让我们回顾一下上半年的业绩吧。", pinyin:"Ràng wǒmen huígù yīxià shàng bànnián de yèjì ba." },
+  { ja:"展示会に出展する予定です。", en:"We plan to exhibit at the trade show.", zh:"我们计划参加展会。", pinyin:"Wǒmen jìhuà cānjiā zhǎnhuì." },
+  { ja:"打ち合わせの候補日をいくつかいただけますか？", en:"Could you give me a few possible dates for the meeting?", zh:"能给我几个会议的候选日期吗？", pinyin:"Néng gěi wǒ jǐ gè huìyì de hòuxuǎn rìqī ma?" },
+  { ja:"先日はありがとうございました。", en:"Thank you for the other day.", zh:"前几天非常感谢。", pinyin:"Qián jǐ tiān fēicháng gǎnxiè." },
+  { ja:"ご多忙のところ恐れ入ります。", en:"I'm sorry to trouble you when you are so busy.", zh:"百忙之中打扰您，非常抱歉。", pinyin:"Bǎimáng zhī zhōng dǎrǎo nín, fēicháng bàoqiàn." },
+  { ja:"念のため確認させてください。", en:"Just to be sure, let me confirm.", zh:"为了保险起见，请让我确认一下。", pinyin:"Wèile bǎoxiǎn qǐjiàn, qǐng ràng wǒ quèrèn yīxià." },
+  { ja:"認識に相違がないか確認させてください。", en:"Let me make sure we are on the same page.", zh:"请让我确认一下我们的理解是否一致。", pinyin:"Qǐng ràng wǒ quèrèn yīxià wǒmen de lǐjiě shìfǒu yīzhì." },
+  { ja:"担当者から折り返しご連絡いたします。", en:"The person in charge will get back to you.", zh:"负责人会给您回电。", pinyin:"Fùzérén huì gěi nín huídiàn." },
+  { ja:"あいにく担当者は本日不在です。", en:"Unfortunately, the person in charge is out today.", zh:"很不巧，负责人今天不在。", pinyin:"Hěn bù qiǎo, fùzérén jīntiān bú zài." },
+  { ja:"伝言をお願いできますか？", en:"Could I leave a message?", zh:"可以帮我留个言吗？", pinyin:"Kěyǐ bāng wǒ liú gè yán ma?" },
+  { ja:"この件は私が引き継ぎます。", en:"I will take over this matter.", zh:"这件事由我来接手。", pinyin:"Zhè jiàn shì yóu wǒ lái jiēshǒu." },
+  { ja:"優先順位をつけて進めましょう。", en:"Let's prioritize and move forward.", zh:"让我们分清优先顺序来推进吧。", pinyin:"Ràng wǒmen fēnqīng yōuxiān shùnxù lái tuījìn ba." },
+  { ja:"KPIの達成状況を共有します。", en:"I will share the progress on our KPIs.", zh:"我来分享KPI的完成情况。", pinyin:"Wǒ lái fēnxiǎng KPI de wánchéng qíngkuàng." },
+  { ja:"費用対効果を検証しましょう。", en:"Let's examine the cost-effectiveness.", zh:"让我们检验一下成本效益吧。", pinyin:"Ràng wǒmen jiǎnyàn yīxià chéngběn xiàoyì ba." },
+  { ja:"前向きなご回答をお待ちしております。", en:"We look forward to a positive reply.", zh:"期待您的积极答复。", pinyin:"Qīdài nín de jījí dáfù." },
+  { ja:"ご提案の内容に賛成です。", en:"I agree with your proposal.", zh:"我赞成您的提案。", pinyin:"Wǒ zànchéng nín de tí'àn." },
+  { ja:"別の案も検討してみませんか？", en:"Why don't we consider another option?", zh:"要不要考虑一下其他方案？", pinyin:"Yào bú yào kǎolǜ yīxià qítā fāng'àn?" },
+  { ja:"懇親会を予定しています。", en:"We are planning a social gathering.", zh:"我们计划举办联谊会。", pinyin:"Wǒmen jìhuà jǔbàn liányìhuì." },
+  { ja:"会議資料を事前にお送りします。", en:"I will send the meeting materials in advance.", zh:"我会提前发送会议资料。", pinyin:"Wǒ huì tíqián fāsòng huìyì zīliào." },
+  { ja:"会議室を予約しておきます。", en:"I will book a meeting room.", zh:"我会预订会议室。", pinyin:"Wǒ huì yùdìng huìyìshì." },
+  { ja:"お手数ですがご対応をお願いします。", en:"Sorry for the trouble, but could you please take care of it?", zh:"麻烦您处理一下。", pinyin:"Máfan nín chǔlǐ yīxià." },
+  { ja:"引き続きよろしくお願いいたします。", en:"I look forward to continuing to work with you.", zh:"今后也请多多关照。", pinyin:"Jīnhòu yě qǐng duōduō guānzhào." },
+  { ja:"年末に向けて業務が立て込んでいます。", en:"Work is getting busy toward the end of the year.", zh:"临近年底，工作越来越忙。", pinyin:"Línjìn niándǐ, gōngzuò yuè lái yuè máng." },
+  { ja:"来週の定例会議は中止です。", en:"Next week's regular meeting is canceled.", zh:"下周的例会取消了。", pinyin:"Xià zhōu de lìhuì qǔxiāo le." }
 ]
 ],
 
@@ -501,6 +532,34 @@ travel: [
   { ja:"現金しか使えませんか？", en:"Can I only pay with cash?", zh:"只能用现金支付吗？", pinyin:"Zhǐ néng yòng xiànjīn zhīfù ma?" },
   { ja:"星がとても綺麗ですね。", en:"The stars are so beautiful.", zh:"星星真美啊。", pinyin:"Xīngxīng zhēn měi a." },
   { ja:"素晴らしい景色ですね。", en:"What a wonderful view.", zh:"景色太美了。", pinyin:"Jǐngsè tài měi le." }
+],
+[
+  // --- 2026年10月分 追加フレーズ ---
+  { ja:"紅葉の見頃はいつですか？", en:"When is the best time to see the autumn leaves?", zh:"什么时候是观赏红叶的最佳时期？", pinyin:"Shénme shíhou shì guānshǎng hóngyè de zuìjiā shíqī?" },
+  { ja:"日帰りで行けますか？", en:"Can I go there on a day trip?", zh:"可以当天往返吗？", pinyin:"Kěyǐ dàngtiān wǎngfǎn ma?" },
+  { ja:"オンラインチェックインは済ませました。", en:"I have already checked in online.", zh:"我已经在网上办理了登机手续。", pinyin:"Wǒ yǐjīng zài wǎngshàng bànlǐ le dēngjī shǒuxù." },
+  { ja:"この荷物は機内に持ち込めますか？", en:"Can I take this bag on board?", zh:"这件行李可以带上飞机吗？", pinyin:"Zhè jiàn xíngli kěyǐ dài shàng fēijī ma?" },
+  { ja:"荷物が出てきません。", en:"My baggage hasn't come out.", zh:"我的行李没有出来。", pinyin:"Wǒ de xíngli méiyǒu chūlái." },
+  { ja:"通路側の席に変更できますか？", en:"Can I change to an aisle seat?", zh:"可以换到靠过道的座位吗？", pinyin:"Kěyǐ huàn dào kào guòdào de zuòwèi ma?" },
+  { ja:"部屋の鍵をなくしてしまいました。", en:"I lost my room key.", zh:"我把房间钥匙弄丢了。", pinyin:"Wǒ bǎ fángjiān yàoshi nòng diū le." },
+  { ja:"お湯が出ません。", en:"There is no hot water.", zh:"没有热水。", pinyin:"Méiyǒu rèshuǐ." },
+  { ja:"禁煙の部屋をお願いします。", en:"A non-smoking room, please.", zh:"请给我禁烟房间。", pinyin:"Qǐng gěi wǒ jìnyān fángjiān." },
+  { ja:"レイトチェックアウトはできますか？", en:"Is late check-out possible?", zh:"可以延迟退房吗？", pinyin:"Kěyǐ yánchí tuìfáng ma?" },
+  { ja:"テラス席は空いていますか？", en:"Is there a table on the terrace available?", zh:"露台座位有空吗？", pinyin:"Lùtái zuòwèi yǒu kòng ma?" },
+  { ja:"この地域の名物料理は何ですか？", en:"What is the local specialty dish here?", zh:"这个地区的特色菜是什么？", pinyin:"Zhège dìqū de tèsè cài shì shénme?" },
+  { ja:"取り皿をいただけますか？", en:"Could we have some small plates?", zh:"可以给我们几个小盘子吗？", pinyin:"Kěyǐ gěi wǒmen jǐ gè xiǎo pánzi ma?" },
+  { ja:"持ち帰りはできますか？", en:"Can I get this to go?", zh:"可以打包吗？", pinyin:"Kěyǐ dǎbāo ma?" },
+  { ja:"別々に支払えますか？", en:"Can we pay separately?", zh:"可以分开付款吗？", pinyin:"Kěyǐ fēnkāi fùkuǎn ma?" },
+  { ja:"1日乗車券はありますか？", en:"Do you have a one-day pass?", zh:"有一日通票吗？", pinyin:"Yǒu yī rì tōngpiào ma?" },
+  { ja:"終電は何時ですか？", en:"What time is the last train?", zh:"末班车是几点？", pinyin:"Mòbānchē shì jǐ diǎn?" },
+  { ja:"次の駅は何ですか？", en:"What is the next station?", zh:"下一站是哪里？", pinyin:"Xià yí zhàn shì nǎlǐ?" },
+  { ja:"このあたりに観光案内所はありますか？", en:"Is there a tourist information center around here?", zh:"这附近有旅游咨询中心吗？", pinyin:"Zhè fùjìn yǒu lǚyóu zīxún zhōngxīn ma?" },
+  { ja:"日本語のパンフレットはありますか？", en:"Do you have a brochure in Japanese?", zh:"有日语的宣传册吗？", pinyin:"Yǒu Rìyǔ de xuānchuáncè ma?" },
+  { ja:"ガイドツアーは何時からですか？", en:"What time does the guided tour start?", zh:"导览游几点开始？", pinyin:"Dǎolǎn yóu jǐ diǎn kāishǐ?" },
+  { ja:"免税の手続きをお願いします。", en:"I'd like to go through the tax-free procedure.", zh:"请帮我办理免税手续。", pinyin:"Qǐng bāng wǒ bànlǐ miǎnshuì shǒuxù." },
+  { ja:"もう少し安いものはありますか？", en:"Do you have anything a little cheaper?", zh:"有稍微便宜一点的吗？", pinyin:"Yǒu shāowēi piányi yìdiǎn de ma?" },
+  { ja:"雨が降りそうなので傘を買いたいです。", en:"It looks like rain, so I want to buy an umbrella.", zh:"好像要下雨了，我想买把伞。", pinyin:"Hǎoxiàng yào xià yǔ le, wǒ xiǎng mǎi bǎ sǎn." },
+  { ja:"素敵な旅になりました。", en:"It has been a wonderful trip.", zh:"这是一次美好的旅行。", pinyin:"Zhè shì yí cì měihǎo de lǚxíng." }
 ]
 ],
 
@@ -603,6 +662,34 @@ accounting: [
   { ja:"監査対応のスケジュールを組みます。", en:"I will set up the schedule for the audit response.", zh:"我来安排应对审计的日程。", pinyin:"Wǒ lái ānpái yìngduì shěnjì de rìchéng." },
   { ja:"事業計画の資金繰り表を作成しました。", en:"I have prepared the cash flow plan for the business plan.", zh:"我已制作事业计划的资金周转表。", pinyin:"Wǒ yǐ zhìzuò shìyè jìhuà de zījīn zhōuzhuǎn biǎo." },
   { ja:"取締役会用の決算資料を準備します。", en:"I will prepare the financial materials for the board meeting.", zh:"我来准备董事会用的决算资料。", pinyin:"Wǒ lái zhǔnbèi dǒngshìhuì yòng de juésuàn zīliào." }
+],
+[
+  // --- 2026年10月分 追加フレーズ ---
+  { ja:"年末調整の書類を従業員に配布します。", en:"We will distribute the year-end adjustment forms to employees.", zh:"我们将向员工发放年终调整的资料。", pinyin:"Wǒmen jiāng xiàng yuángōng fāfàng niánzhōng tiáozhěng de zīliào." },
+  { ja:"保険料控除証明書を提出してください。", en:"Please submit your insurance premium deduction certificate.", zh:"请提交保险费扣除证明书。", pinyin:"Qǐng tíjiāo bǎoxiǎnfèi kòuchú zhèngmíngshū." },
+  { ja:"扶養親族に変更はありますか？", en:"Are there any changes in your dependents?", zh:"您的抚养亲属有变化吗？", pinyin:"Nín de fǔyǎng qīnshǔ yǒu biànhuà ma?" },
+  { ja:"上半期の業績を分析しました。", en:"I have analyzed the first-half performance.", zh:"我已分析了上半年的业绩。", pinyin:"Wǒ yǐ fēnxī le shàng bànnián de yèjì." },
+  { ja:"決算の着地見込みを試算します。", en:"I will estimate the expected year-end results.", zh:"我来估算决算的预计结果。", pinyin:"Wǒ lái gūsuàn juésuàn de yùjì jiéguǒ." },
+  { ja:"納税資金を準備しておいてください。", en:"Please prepare funds for tax payments.", zh:"请提前准备好纳税资金。", pinyin:"Qǐng tíqián zhǔnbèi hǎo nàshuì zījīn." },
+  { ja:"予定納税の通知が届きました。", en:"We received the notice of estimated tax prepayment.", zh:"收到了预缴税款的通知。", pinyin:"Shōudào le yùjiǎo shuìkuǎn de tōngzhī." },
+  { ja:"領収書と請求書を照合してください。", en:"Please match the receipts with the invoices.", zh:"请核对收据和发票。", pinyin:"Qǐng héduì shōujù hé fāpiào." },
+  { ja:"この支出は資産計上が必要です。", en:"This expenditure needs to be capitalized.", zh:"这笔支出需要资本化。", pinyin:"Zhè bǐ zhīchū xūyào zīběnhuà." },
+  { ja:"少額減価償却資産の特例を使えます。", en:"You can use the special rule for small depreciable assets.", zh:"可以适用小额折旧资产的特例。", pinyin:"Kěyǐ shìyòng xiǎo'é zhéjiù zīchǎn de tèlì." },
+  { ja:"勘定科目を統一しましょう。", en:"Let's standardize the account titles.", zh:"让我们统一会计科目吧。", pinyin:"Ràng wǒmen tǒngyī kuàijì kēmù ba." },
+  { ja:"預金残高を通帳と照合します。", en:"I will reconcile the deposit balance with the bankbook.", zh:"我来将存款余额与存折进行核对。", pinyin:"Wǒ lái jiāng cúnkuǎn yú'é yǔ cúnzhé jìnxíng héduì." },
+  { ja:"買掛金の支払予定を確認してください。", en:"Please check the payment schedule for accounts payable.", zh:"请确认应付账款的付款计划。", pinyin:"Qǐng quèrèn yìngfù zhàngkuǎn de fùkuǎn jìhuà." },
+  { ja:"貸倒引当金を見直します。", en:"We will review the allowance for doubtful accounts.", zh:"我们将重新评估坏账准备。", pinyin:"Wǒmen jiāng chóngxīn pínggū huàizhàng zhǔnbèi." },
+  { ja:"役員貸付金の残高が増えています。", en:"The balance of loans to directors is increasing.", zh:"对董事的借款余额在增加。", pinyin:"Duì dǒngshì de jièkuǎn yú'é zài zēngjiā." },
+  { ja:"法人の帳簿書類の保存期間は原則7年です。", en:"Corporate books and records must be kept for seven years in principle.", zh:"法人账簿资料的保存期限原则上为7年。", pinyin:"Fǎrén zhàngbù zīliào de bǎocún qīxiàn yuánzé shàng wéi qī nián." },
+  { ja:"税額控除の適用を検討しましょう。", en:"Let's consider applying tax credits.", zh:"让我们研究一下适用税额抵免吧。", pinyin:"Ràng wǒmen yánjiū yīxià shìyòng shuì'é dǐmiǎn ba." },
+  { ja:"賃上げ促進税制の要件を確認します。", en:"I will check the requirements of the wage increase tax incentive.", zh:"我来确认促进加薪税制的要件。", pinyin:"Wǒ lái quèrèn cùjìn jiāxīn shuìzhì de yàojiàn." },
+  { ja:"ふるさと納税の上限額を試算します。", en:"I will estimate your hometown tax donation limit.", zh:"我来估算您故乡纳税的上限额。", pinyin:"Wǒ lái gūsuàn nín gùxiāng nàshuì de shàngxiàn'é." },
+  { ja:"住宅ローン控除の書類はお持ちですか？", en:"Do you have the documents for the mortgage deduction?", zh:"您有住房贷款扣除的资料吗？", pinyin:"Nín yǒu zhùfáng dàikuǎn kòuchú de zīliào ma?" },
+  { ja:"売上の計上時期を確認してください。", en:"Please check the timing of revenue recognition.", zh:"请确认收入的确认时间。", pinyin:"Qǐng quèrèn shōurù de quèrèn shíjiān." },
+  { ja:"資金繰り表を更新しました。", en:"I have updated the cash flow schedule.", zh:"我已更新资金周转表。", pinyin:"Wǒ yǐ gēngxīn zījīn zhōuzhuǎn biǎo." },
+  { ja:"金融機関との面談に同席します。", en:"I will attend the meeting with the bank.", zh:"我将陪同出席与金融机构的面谈。", pinyin:"Wǒ jiāng péitóng chūxí yǔ jīnróng jīgòu de miàntán." },
+  { ja:"決算前に節税策を検討しましょう。", en:"Let's consider tax-saving measures before closing.", zh:"让我们在决算前研究节税措施吧。", pinyin:"Ràng wǒmen zài juésuàn qián yánjiū jiéshuì cuòshī ba." },
+  { ja:"数字の根拠を説明していただけますか？", en:"Could you explain the basis for these figures?", zh:"能说明一下这些数字的依据吗？", pinyin:"Néng shuōmíng yīxià zhèxiē shùzì de yījù ma?" }
 ]
 ],
 
@@ -705,6 +792,34 @@ parenting: [
   { ja:"自分の意見を持つことは大切だよ。", en:"It's important to have your own opinion.", zh:"拥有自己的想法很重要哦。", pinyin:"Yōngyǒu zìjǐ de xiǎngfǎ hěn zhòngyào ō." },
   { ja:"今日も一日お疲れさま。", en:"Thank you for another good day.", zh:"今天也辛苦了。", pinyin:"Jīntiān yě xīnkǔ le." },
   { ja:"どんなことでも応援しているよ。", en:"I support you no matter what.", zh:"无论什么事我都支持你。", pinyin:"Wúlùn shénme shì wǒ dōu zhīchí nǐ." }
+],
+[
+  // --- 2026年10月分 追加フレーズ ---
+  { ja:"どんぐりを拾いに行こう！", en:"Let's go pick up acorns!", zh:"我们去捡橡果吧！", pinyin:"Wǒmen qù jiǎn xiàngguǒ ba!" },
+  { ja:"葉っぱの色が変わってきたね。", en:"The leaves are changing color.", zh:"树叶的颜色变了呢。", pinyin:"Shùyè de yánsè biàn le ne." },
+  { ja:"上着を着ていこうね。", en:"Let's wear a jacket.", zh:"穿上外套再走吧。", pinyin:"Chuān shàng wàitào zài zǒu ba." },
+  { ja:"運動会、よく頑張ったね！", en:"You did great at the sports day!", zh:"运动会上你表现得真棒！", pinyin:"Yùndònghuì shàng nǐ biǎoxiàn de zhēn bàng!" },
+  { ja:"ハロウィンは何の仮装をする？", en:"What will you dress up as for Halloween?", zh:"万圣节你要扮成什么？", pinyin:"Wànshèngjié nǐ yào bàn chéng shénme?" },
+  { ja:"お月さまがきれいだね。", en:"The moon is beautiful.", zh:"月亮真美啊。", pinyin:"Yuèliang zhēn měi a." },
+  { ja:"読書の秋だね。何を読もうか？", en:"Autumn is the season for reading. What shall we read?", zh:"秋天是读书的季节。我们读什么呢？", pinyin:"Qiūtiān shì dúshū de jìjié. Wǒmen dú shénme ne?" },
+  { ja:"風邪をひかないようにね。", en:"Be careful not to catch a cold.", zh:"小心别感冒了。", pinyin:"Xiǎoxīn bié gǎnmào le." },
+  { ja:"うがいをしようね。", en:"Let's gargle.", zh:"我们来漱漱口吧。", pinyin:"Wǒmen lái shù shù kǒu ba." },
+  { ja:"熱を測ってみよう。", en:"Let's check your temperature.", zh:"我们量一下体温吧。", pinyin:"Wǒmen liáng yīxià tǐwēn ba." },
+  { ja:"お薬を飲もうね。", en:"Let's take your medicine.", zh:"我们吃药吧。", pinyin:"Wǒmen chī yào ba." },
+  { ja:"忘れ物はない？", en:"Did you forget anything?", zh:"有没有忘带东西？", pinyin:"Yǒu méiyǒu wàng dài dōngxi?" },
+  { ja:"明日の準備はできた？", en:"Are you ready for tomorrow?", zh:"明天的东西准备好了吗？", pinyin:"Míngtiān de dōngxi zhǔnbèi hǎo le ma?" },
+  { ja:"ランドセルを片付けてね。", en:"Please put away your school bag.", zh:"请把书包收拾好。", pinyin:"Qǐng bǎ shūbāo shōushi hǎo." },
+  { ja:"先生の話をよく聞いてね。", en:"Listen carefully to your teacher.", zh:"要好好听老师的话。", pinyin:"Yào hǎohǎo tīng lǎoshī de huà." },
+  { ja:"どうしてそう思ったの？", en:"Why do you think so?", zh:"你为什么这么想呢？", pinyin:"Nǐ wèishénme zhème xiǎng ne?" },
+  { ja:"最後まで諦めなかったね。", en:"You didn't give up until the end.", zh:"你坚持到了最后呢。", pinyin:"Nǐ jiānchí dào le zuìhòu ne." },
+  { ja:"一緒に考えよう。", en:"Let's think about it together.", zh:"我们一起想想吧。", pinyin:"Wǒmen yìqǐ xiǎngxiang ba." },
+  { ja:"おじいちゃんに電話しようか。", en:"Shall we call Grandpa?", zh:"我们给爷爷打个电话吧？", pinyin:"Wǒmen gěi yéye dǎ gè diànhuà ba?" },
+  { ja:"お芋ほりに行こう！", en:"Let's go dig sweet potatoes!", zh:"我们去挖红薯吧！", pinyin:"Wǒmen qù wā hóngshǔ ba!" },
+  { ja:"落ち葉で何か作ってみよう。", en:"Let's make something with fallen leaves.", zh:"我们用落叶做点什么吧。", pinyin:"Wǒmen yòng luòyè zuò diǎn shénme ba." },
+  { ja:"暗くなる前に帰ろうね。", en:"Let's go home before it gets dark.", zh:"天黑之前回家吧。", pinyin:"Tiān hēi zhīqián huíjiā ba." },
+  { ja:"正直に話してくれてありがとう。", en:"Thank you for telling me honestly.", zh:"谢谢你老实告诉我。", pinyin:"Xièxie nǐ lǎoshi gàosu wǒ." },
+  { ja:"きょうだいで仲良くしてね。", en:"Please get along with your siblings.", zh:"兄弟姐妹要好好相处哦。", pinyin:"Xiōngdì jiěmèi yào hǎohǎo xiāngchǔ o." },
+  { ja:"あなたのことを誇りに思うよ。", en:"I'm proud of you.", zh:"我为你感到骄傲。", pinyin:"Wǒ wèi nǐ gǎndào jiāo'ào." }
 ]
 ]
 
@@ -738,21 +853,19 @@ function changeDay(delta) {
 }
 
 function getTodayPhrases(theme) {
-  // PHRASES[theme] は「月ごとのバッチ」の配列。月が変わるごとに次のバッチへ進み、
-  // バッチを使い切ったら最初のバッチへ戻る（新しいバッチを追加すれば自動的に反映される）。
+  // PHRASES[theme] は「月ごとのバッチ」の配列で、BATCH_MONTHS と同じ順番で対応する。
+  // 表示月のバッチがあればそれを使い、無ければ直近の過去月のバッチを使う（古い月へ戻らない）。
   const batches = PHRASES[theme];
 
   // 表示対象の日付（ナビゲーションのオフセットを反映）
   const viewDate = new Date();
   viewDate.setDate(viewDate.getDate() + dayOffset);
 
-  // 基準月：2026年7月（アプリ開始月）
-  const baseYear = 2026, baseMonth = 6; // 6 = 7月（0始まり）
-  const monthIndex = Math.max(0,
-    (viewDate.getFullYear() - baseYear) * 12 + (viewDate.getMonth() - baseMonth)
-  );
+  const viewKey = `${viewDate.getFullYear()}-${String(viewDate.getMonth() + 1).padStart(2, '0')}`;
+  let batchIdx = 0;
+  BATCH_MONTHS.forEach((m, i) => { if (m <= viewKey && i < batches.length) batchIdx = i; });
 
-  const batch = batches[monthIndex % batches.length];
+  const batch = batches[batchIdx];
   const total = batch.length;
 
   // 月内の日付（0始まり）を「バッチ件数 ÷ 5」日サイクルに収める
